@@ -2,18 +2,13 @@ from fastapi import status, APIRouter, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from infrastructure.database.postgresql.session import get_async_session
 from infrastructure.repositories.postgres.user.exception import UserIsExist
-from infrastructure.repositories.postgres.user.uow import PostgreSQLUserUnitOfWork
-from infrastructure.repositories.postgres.user import PostgreSQLUserRepository
-from usecase.user.create_user.implemation import PostgreSQLCreateUserUseCase
 from usecase.user.create_user.abstarct import AbstractCreateUserUseCase
 from usecase.user.get_user.abstract import AbstractGetUserUseCase
 from usecase.user.delete_user.abstract import AbstractDeleteUserUseCase
 from usecase.user.update_user.abstract import AbstractUpdateUserUseCase
-from .dependencies import get_user_unit_of_work, create_user_use_case, delete_user_use_case, update_user_use_case, get_user_use_case
+from .dependencies import create_user_use_case, delete_user_use_case, update_user_use_case, get_user_use_case
 from .models import CreateUpdateUserSchema, UserSchema
 
 router = APIRouter(prefix='/users')

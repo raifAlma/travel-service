@@ -1,12 +1,9 @@
-from pydantic import BaseModel, Field, field_validator
-from typing import Optional, List
-from datetime import datetime
-from enum import Enum
+from pydantic import BaseModel, Field
+from typing import Optional
 
 class WaypointSchema(BaseModel):
     latitude: float = Field(..., ge=-90, le=90)
     longitude: float = Field(..., ge=-180, le=180)
-    #order_index: int = Field(..., ge=0)
     title: str = Field(..., max_length=100)
     description: Optional[str] = Field(None, max_length=500)
     route_id: int

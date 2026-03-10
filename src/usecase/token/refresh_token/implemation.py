@@ -1,4 +1,4 @@
-from api.v1.auth.models import UserLoginSchema, RefreshTokenSchema, TokenSchema
+from api.v1.auth.models import  RefreshTokenSchema, TokenSchema
 
 from .abstract import AbstractRefreshTokenUseCase
 

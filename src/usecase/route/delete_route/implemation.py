@@ -1,8 +1,5 @@
-from api.v1.routes.models import RouteBase
-from api.v1.users.models import CreateUpdateUserSchema
-from .abstract import AbstractDeleteRouteUseCase
-from fastapi import Depends, HTTPException
 
+from .abstract import AbstractDeleteRouteUseCase
 class PostgreSQLDeleteRouteUseCase(AbstractDeleteRouteUseCase):
     def __init__(self, uow):
         self._uow = uow

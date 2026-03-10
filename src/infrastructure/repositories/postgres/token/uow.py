@@ -1,6 +1,4 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import AsyncIterator
-
 from infrastructure.repositories.postgres.user import PostgreSQLUserRepository
 from .token import PostgreSQLTokenRepository
 

@@ -1,7 +1,4 @@
-from api.v1.routes.models import RouteBase
-from api.v1.users.models import CreateUpdateUserSchema
 from .abstract import AbstractDeleteWaypointUseCase
-from fastapi import Depends, HTTPException
 
 class PostgreSQLDeleteWaypointUseCase(AbstractDeleteWaypointUseCase):
     def __init__(self, uow):

@@ -1,7 +1,6 @@
 from api.v1.way_points.models import WaypointUpdate
-from api.v1.users.models import CreateUpdateUserSchema
+
 from .abstract import AbstractUpdateWaypointUseCase
-from fastapi import Depends, HTTPException
 
 class PostgreSQLUpdateWaypointUseCase(AbstractUpdateWaypointUseCase):
     def __init__(self, uow):

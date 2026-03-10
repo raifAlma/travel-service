@@ -11,7 +11,7 @@ from api.v1.auth.models import TokenSchema, RefreshTokenSchema
 from api.v1.users.models import UserSchema
 from infrastructure.database.postgresql.models import Token, User
 from infrastructure.repositories.postgres.token.crypto import hash_token
-
+from .exception import InvalidRefreshToken
 
 class PostgreSQLTokenRepository:
     def __init__(self, session: AsyncSession):
@@ -58,7 +58,7 @@ class PostgreSQLTokenRepository:
         token = result.scalar_one_or_none()
 
         if not token:
-            raise ...
+            raise InvalidRefreshToken
 
         access_token = secrets.token_urlsafe(56)
         refresh_token = secrets.token_urlsafe(56)

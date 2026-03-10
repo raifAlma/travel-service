@@ -5,3 +5,5 @@ class RouteNameIsNotUnique(Exception):
 class UserNotAuthorize(Exception):
     def __init__(self):
         super().__init__('User not authorize.')
+
+

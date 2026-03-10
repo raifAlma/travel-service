@@ -1,12 +1,10 @@
 import enum
-from datetime import datetime
 from typing import Optional, List
-from sqlalchemy import String, Text, Float, Boolean, DateTime, ForeignKey, Enum as SQLEnum
+from sqlalchemy import Float, ForeignKey, Enum as SQLEnum, Integer, String, Text
+from sqlalchemy.orm import  relationship, Mapped, mapped_column
 
-from sqlalchemy.orm import  relationship
 from ..base import Base
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import Integer, String, Text
+
 class DifficultyEnum(str, enum.Enum):
     EASY = "easy"
     MEDIUM = "medium"
@@ -25,14 +23,12 @@ class Route(Base):
 
     distance_km: Mapped[Optional[float]] = mapped_column(Float)
     estimated_hours: Mapped[Optional[float]] = mapped_column(Float)
-    #created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
-    # ForeignKey к пользователю
     owner_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
-    #owner_name: Mapped[str] = mapped_column(ForeignKey("users.username", ondelete="CASCADE"), nullable=False)
+    comments: Mapped[list['Comments']] = relationship(back_populates="route", cascade="all, delete-orphan")
 
 
-    # Relationships
+
     owner: Mapped["User"] = relationship(back_populates="routes", foreign_keys=[owner_id])
     waypoints: Mapped[List["Waypoint"]] = relationship(
         back_populates="route",

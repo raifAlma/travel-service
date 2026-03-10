@@ -1,4 +1,3 @@
-
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -25,8 +24,8 @@ class PostgreSQLRouteRepository:
 
         query = select(User).where(User.id == payload.owner_id)
         result = await self._session.execute(query)
-        user_not_authorized = result.scalar_one_or_none()
-        if user_not_authorized:
+        user = result.scalar_one_or_none()
+        if not user:
             raise UserNotAuthorize()
 
         route = Route(
@@ -39,16 +38,8 @@ class PostgreSQLRouteRepository:
 
         )
         self._session.add(route)
-        #try:
         await self._session.flush()
         return route
-        #except IntegrityError as e:
-         #       pattern = r'Key \((.*?)\)=\((.*?)\)'
-          #      match = re.search(pattern, str(e))
-           #     columns = [col.strip() for col in match.group(1).split(',')]
-            #    values = [val.strip() for val in match.group(2).split(',')]
-             #   raise RouteNameIsNotUnique(field=values[0])
-        #return route
 
     async def get_by_id(self, route_id: int) -> RouteResponse:
         route = await self._session.get(Route, route_id)
@@ -58,24 +49,14 @@ class PostgreSQLRouteRepository:
             return route
         raise HTTPException(status_code=404, detail="Route not found")
 
-    async def delete(self, route_id:int) -> RouteResponse:
+    async def delete(self, route_id:int) -> None:
         route = await self._session.get(Route, route_id)
         if route is None:
-            print(f"❌ [Repo] Маршрут {route_id} не найден")
             raise HTTPException(status_code=404, detail="Route not found")
-        route_data = RouteBase(title=route.title,
-                                   difficulty=route.difficulty, owner_id=route.owner_id,
-                                    distance_km=route.distance_km,
-                               description=route.description, estimated_hours=route.estimated_hours)
-
-
-        # result = UserSchema(id=user.id, name=user.name, email=user.email)
         try:
             await self._session.delete(route)
             await self._session.flush()
             await self._session.commit()
-            print(f"✅ Маршрут {route_id} удален")
-            #return route_data
         except IntegrityError:
             await self._session.rollback()
             raise HTTPException(status_code=409, detail="Cannot delete route")

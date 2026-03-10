@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from domain.repository.abstract import AbstractRepository, TCreateDTO, TEntity
 
 from .models import User, UserCreateDTO, UserUpdateDTO
-from .exception import ItemNotFoundError
+
 
 
 class AbstractUserRepository(

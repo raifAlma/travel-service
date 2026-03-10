@@ -3,20 +3,13 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from infrastructure.repositories.postgres.route import PostgreSQLRouteRepository
-#from infrastructure.database.postgresql.session import get_async_session
-from infrastructure.repositories.postgres.route.exception import RouteNameIsNotUnique
+from infrastructure.repositories.postgres.route.exception import RouteNameIsNotUnique, UserNotAuthorize
 from usecase.route.create_route.abstarct import AbstractCreateRouteUseCase
-
-from usecase.route.create_route.implemation import PostgreSQLCreateRouteUseCase
 from usecase.route.delete_route.abstract import AbstractDeleteRouteUseCase
-
 from usecase.route.get_route.abstract import AbstractGetRouteUseCase
 from usecase.route.update_route.abstract import AbstractUpdateRouteUseCase
 from .dependencies import  create_route_use_case, get_route_use_case, update_route_use_case, delete_route_use_case
-from .models import RouteResponse, RouteDetailResponse, RouteCreate, RouteUpdate
+from .models import RouteResponse, RouteCreate, RouteUpdate
 
 
 router = APIRouter(prefix='/routes')
@@ -32,14 +25,14 @@ async def get_token_from_header():
 @router.post("", response_model=RouteCreate, status_code=status.HTTP_201_CREATED)
 async def create_route(
     payload: RouteCreate,
-    #current_route=Depends(get_route_unit_of_work),
     usecase: AbstractCreateRouteUseCase = Depends(create_route_use_case),
 ) -> JSONResponse:
     try:
         route = await usecase.execute(payload)
     except RouteNameIsNotUnique as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-
+    except UserNotAuthorize as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
     return JSONResponse(content=jsonable_encoder(route))
 
 @router.get("", response_model=RouteResponse, status_code=status.HTTP_200_OK)

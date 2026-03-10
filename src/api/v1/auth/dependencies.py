@@ -28,10 +28,3 @@ def refresh_token_use_case(
 
 
 
-'''
-def create_user_use_case(
-    session: AsyncSession = Depends(get_async_session),
-):
-    uow = build_user_unit_of_work(session)
-    return PostgreSQLCreateUserUseCase(uow=uow)
-'''

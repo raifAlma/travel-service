@@ -1,7 +1,6 @@
 from api.v1.routes.models import RouteCreate
-from api.v1.users.models import CreateUpdateUserSchema
 from .abstarct import AbstractCreateRouteUseCase
-from fastapi import Depends, HTTPException
+
 
 class PostgreSQLCreateRouteUseCase(AbstractCreateRouteUseCase):
     def __init__(self, uow):

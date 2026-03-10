@@ -1,10 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from api.v1.users.models import CreateUpdateUserSchema
+
 from container import Container
-from infrastructure.repositories.postgres.route import PostgreSQLRouteRepository
+from infrastructure.repositories.postgres.comment.uow import PostgreSQLCommentUnitOfWork
 from infrastructure.repositories.postgres.user.uow import PostgreSQLUserUnitOfWork
-from usecase.user.create_user.abstarct import AbstractCreateUserUseCase
 from infrastructure.repositories.postgres.token.uow import PostgreSQLTokenUnitOfWork
 from infrastructure.repositories.postgres.route.uow import PostgreSQLRouteUnitOfWork
 from infrastructure.repositories.postgres.waypoint.uow import PostgreSQLWaypointUnitOfWork
@@ -31,6 +30,10 @@ def build_waypoint_unit_of_work(
 )->PostgreSQLWaypointUnitOfWork:
     return Container.waypoint_uow_factory(session=session)
 
+def build_comment_unit_of_work(
+    session: AsyncSession,
+) -> PostgreSQLCommentUnitOfWork:
+    return Container.comment_uow_factory(session=session)
 
 
 

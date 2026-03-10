@@ -2,6 +2,7 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Singleton, Factory
 
 from infrastructure.database.postgresql.session_manager import DatabaseSessionManager
+from infrastructure.repositories.postgres.comment.uow import PostgreSQLCommentUnitOfWork
 from infrastructure.repositories.postgres.route import PostgreSQLRouteUnitOfWork
 from infrastructure.repositories.postgres.user.uow import PostgreSQLUserUnitOfWork
 from infrastructure.repositories.postgres.token.uow import PostgreSQLTokenUnitOfWork
@@ -14,3 +15,4 @@ class Container(DeclarativeContainer):
     token_uow_factory = Factory(PostgreSQLTokenUnitOfWork)
     route_uow_factory = Factory(PostgreSQLRouteUnitOfWork)
     waypoint_uow_factory = Factory(PostgreSQLWaypointUnitOfWork)
+    comment_uow_factory = Factory(PostgreSQLCommentUnitOfWork)

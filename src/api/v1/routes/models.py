@@ -1,8 +1,8 @@
-from pydantic import BaseModel, Field, field_validator, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 from enum import Enum
-from api.v1.way_points import WaypointSchema
+from api.v1.way_points.models import WaypointSchema
 class DifficultyEnum(str, Enum):
     EASY = "easy"
     MEDIUM = "medium"
@@ -42,9 +42,7 @@ class RouteResponse(BaseModel):
     difficulty: DifficultyEnum
     description: str
     owner_id: int
-    #owner_name: str
-    #created_at: datetime
-    # НЕ включает waypoints для списков
+
 
 
 #  Схема для детального просмотра маршрута

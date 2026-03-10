@@ -1,6 +1,6 @@
 from fastapi import Depends
-from fastapi.openapi.utils import status_code_ranges
-from sqlalchemy.ext.asyncio import AsyncSession, session
+
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from infrastructure.database.postgresql.session import get_async_session
 from infrastructure.di.injection import build_waypoint_unit_of_work

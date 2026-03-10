@@ -1,7 +1,6 @@
-
-from sqlalchemy.orm import  relationship
+from sqlalchemy.orm import  relationship, Mapped, mapped_column
+from infrastructure.database.postgresql.models.Comment import Comments
 from ..base import Base
-from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import Integer, String
 
 class User(Base):
@@ -27,13 +26,13 @@ class User(Base):
     )
 
 
-"""
+
     # NEW: One-to-Many: пользователь пишет отзывы
-    reviews: Mapped[list["Review"]] = relationship(
+    comments: Mapped[list["Comments"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan"
     )
-
+"""
     # NEW: Many-to-Many: пользователь лайкает отзывы
     liked_reviews: Mapped[list["Review"]] = relationship(
         secondary="likes",  # Укажем таблицу позже

@@ -1,5 +1,4 @@
-from typing import Optional
-from pydantic import Field, BaseModel, EmailStr, SecretStr, model_validator, ValidationError
+from pydantic import BaseModel, EmailStr, model_validator
 from enum import Enum
 
 from api.v1.users.crypto import context
@@ -8,6 +7,7 @@ from api.v1.users.crypto import context
 class Gender(str, Enum):
     male = "male"
     female = "female"
+
 class CreateUpdateUserSchema(BaseModel):
     email: EmailStr
     password: str
