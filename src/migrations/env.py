@@ -34,6 +34,11 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
 from infrastructure.database.postgresql.base import Base
+from infrastructure.database.postgresql.models import Comments
+from infrastructure.database.postgresql.models import Route
+from infrastructure.database.postgresql.models import User
+from infrastructure.database.postgresql.models import token
+from infrastructure.database.postgresql.models import waypoints
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

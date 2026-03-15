@@ -8,9 +8,9 @@ from usecase.route.create_route.abstarct import AbstractCreateRouteUseCase
 from usecase.route.delete_route.abstract import AbstractDeleteRouteUseCase
 from usecase.route.get_route.abstract import AbstractGetRouteUseCase
 from usecase.route.update_route.abstract import AbstractUpdateRouteUseCase
-from .dependencies import  create_route_use_case, get_route_use_case, update_route_use_case, delete_route_use_case
-from .models import RouteResponse, RouteCreate, RouteUpdate
-
+from usecase.route.get_detail_route.abstract import AbstractGetDetailRouteUseCase
+from .dependencies import  create_route_use_case, get_route_use_case, update_route_use_case, delete_route_use_case, get_detail_by_id
+from .models import RouteResponse, RouteCreate, RouteUpdate, RouteDetailResponse
 
 router = APIRouter(prefix='/routes')
 
@@ -35,7 +35,7 @@ async def create_route(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
     return JSONResponse(content=jsonable_encoder(route))
 
-@router.get("", response_model=RouteResponse, status_code=status.HTTP_200_OK)
+@router.get("/{id}", response_model=RouteResponse, status_code=status.HTTP_200_OK)
 async def get_route_by_id(
     id: int,
     usecase: AbstractGetRouteUseCase = Depends(get_route_use_case),
@@ -43,6 +43,18 @@ async def get_route_by_id(
     try:
         route = await usecase.execute(id)
         return JSONResponse(content=jsonable_encoder(route))
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
+
+@router.get("_detail/{id}", response_model=RouteDetailResponse, status_code=status.HTTP_200_OK)
+async def get_detail_by_id(
+    id: int,
+    usecase: AbstractGetDetailRouteUseCase = Depends(get_detail_by_id),
+) -> JSONResponse:
+    try:
+        route = await usecase.execute(id)
+        return route
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 

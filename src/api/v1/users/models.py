@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, model_validator
+from pydantic import BaseModel, EmailStr, model_validator, ConfigDict
 from enum import Enum
 
 from api.v1.users.crypto import context
@@ -29,5 +29,11 @@ class UserSchema(BaseModel):
     username: str
     email: EmailStr
     age: int
+
+class UserInfoSchema(BaseModel):
+    id: int
+    username: str
+
+    model_config = ConfigDict(from_attributes=True)
 
 

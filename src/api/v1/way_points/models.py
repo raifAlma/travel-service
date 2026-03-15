@@ -1,7 +1,9 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 class WaypointSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     latitude: float = Field(..., ge=-90, le=90)
     longitude: float = Field(..., ge=-180, le=180)
     title: str = Field(..., max_length=100)

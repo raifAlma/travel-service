@@ -10,5 +10,5 @@ class PostgreSQLGetUserUseCase(AbstractGetUserUseCase):
 
         async with self._uow as uow_:
 
-            user = await uow_.repository.get_by_id(user_id)
-        return user
+            comment = await uow_.repository.get_by_id(user_id)
+        return comment

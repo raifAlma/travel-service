@@ -10,7 +10,7 @@ from usecase.route.create_route.implemation import PostgreSQLCreateRouteUseCase
 from usecase.route.delete_route.implemation import PostgreSQLDeleteRouteUseCase
 from usecase.route.update_route.implemation import PostgreSQLUpdateRouteUseCase
 from usecase.route.get_route.implemation import PostgreSQLGetRouteUseCase
-
+from usecase.route.get_detail_route.imlemation import PostgreSQLGetDetailRouteUseCase
 
 
 
@@ -43,4 +43,11 @@ def get_route_use_case(
 ):
     uow = get_route_unit_of_work(session)
     return PostgreSQLGetRouteUseCase(uow=uow)
+
+def get_detail_by_id(
+    session: AsyncSession = Depends(get_async_session)
+):
+    uow = get_route_unit_of_work(session)
+    return PostgreSQLGetDetailRouteUseCase(uow=uow)
+
 

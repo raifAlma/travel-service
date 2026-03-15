@@ -1,8 +1,10 @@
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
+from infrastructure.database.postgresql.models import Comments
 from infrastructure.database.postgresql.models.users import User
-from api.v1.routes.models import RouteCreate, RouteUpdate, RouteResponse, RouteBase
+from api.v1.routes.models import RouteCreate, RouteUpdate, RouteResponse, RouteBase, RouteDetailResponse
 from infrastructure.database.postgresql.models.Route import Route
 
 from fastapi import HTTPException
@@ -48,6 +50,18 @@ class PostgreSQLRouteRepository:
                                   difficulty=route.difficulty, owner_id=route.owner_id, description=route.description)
             return route
         raise HTTPException(status_code=404, detail="Route not found")
+
+
+    async def get_detail_by_id(self, route_id: int) -> RouteDetailResponse:
+        stmt = (select(Route).options(selectinload(Route.waypoints),selectinload(Route.comments).
+                                      selectinload(Comments.user),
+                                      selectinload(Route.owner)).where(Route.id == route_id))
+        result = await self._session.execute(stmt)
+        route = result.scalar_one_or_none()
+        if not route:
+            raise HTTPException(status_code=404, detail="Route not found")
+        return RouteDetailResponse.model_validate(route)
+
 
     async def delete(self, route_id:int) -> None:
         route = await self._session.get(Route, route_id)

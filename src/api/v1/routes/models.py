@@ -3,6 +3,9 @@ from typing import Optional, List
 from datetime import datetime
 from enum import Enum
 from api.v1.way_points.models import WaypointSchema
+from api.v1.comments.models import CommentResponse
+
+
 class DifficultyEnum(str, Enum):
     EASY = "easy"
     MEDIUM = "medium"
@@ -45,7 +48,11 @@ class RouteResponse(BaseModel):
 
 
 
-#  Схема для детального просмотра маршрута
+class OwnerSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    username: str
+
 class RouteDetailResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -55,8 +62,6 @@ class RouteDetailResponse(BaseModel):
     difficulty: DifficultyEnum
     distance_km: Optional[float]
     estimated_hours: Optional[float]
-    created_at: datetime
-    owner_id: int
-    owner_name: str
-    # Включаем точки маршрута
+    comments: List[CommentResponse] = []
     waypoints: List[WaypointSchema] = []
+    owner: OwnerSchema
