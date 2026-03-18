@@ -3,3 +3,4 @@ from .token import Token
 from .waypoints import Waypoint
 from .Route import Route
 from .Comment import Comments
+from .like import Likes

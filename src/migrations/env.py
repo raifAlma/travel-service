@@ -1,30 +1,12 @@
-# src/migrations/env.py
+import asyncio
 import sys
 from pathlib import Path
 
-# Определяем пути
-BASE_DIR = Path(__file__).resolve().parent.parent.parent  # до my_f_proj
-SRC_DIR = BASE_DIR / "src"  # папка src, где лежит settings.py
-
-print(f"BASE_DIR: {BASE_DIR}")
-print(f"SRC_DIR: {SRC_DIR}")
-
-# Добавляем src в sys.path для импорта settings
+# Добавляем путь к папке src в sys.path
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # поднимаемся на три уровня: migrations/ -> src/ -> my_f_proj/
+SRC_DIR = BASE_DIR / "src"
 sys.path.insert(0, str(SRC_DIR))
 
-# Импортируем settings из src
-try:
-    from settings import settings
-    print("✓ Settings imported from src/settings.py")
-except ImportError as e:
-    print(f"✗ Error importing settings: {e}")
-    print("Make sure settings.py exists in src/ folder")
-    sys.exit(1)
-
-# Для импорта моделей (Base) тоже может понадобиться src в пути
-# Но если Base в src/infrastructure..., то уже добавили
-
-import asyncio
 from logging.config import fileConfig
 
 from sqlalchemy import pool
@@ -34,16 +16,13 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
 from infrastructure.database.postgresql.base import Base
-from infrastructure.database.postgresql.models import Comments
-from infrastructure.database.postgresql.models import Route
-from infrastructure.database.postgresql.models import User
-from infrastructure.database.postgresql.models import token
-from infrastructure.database.postgresql.models import waypoints
+from settings import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.database.get_database_url())
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:

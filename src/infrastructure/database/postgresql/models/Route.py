@@ -1,8 +1,9 @@
 import enum
 from typing import Optional, List
-from sqlalchemy import Float, ForeignKey, Enum as SQLEnum, Integer, String, Text
-from sqlalchemy.orm import  relationship, Mapped, mapped_column
+from sqlalchemy import Float, ForeignKey, Enum as SQLEnum, Integer, String, Text, select, func
+from sqlalchemy.orm import  relationship, Mapped, mapped_column, column_property
 
+from infrastructure.database.postgresql.models.like import Likes
 from ..base import Base
 
 class DifficultyEnum(str, enum.Enum):
@@ -27,12 +28,20 @@ class Route(Base):
     owner_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
     comments: Mapped[list['Comments']] = relationship(back_populates="route", cascade="all, delete-orphan")
 
-
-
     owner: Mapped["User"] = relationship(back_populates="routes", foreign_keys=[owner_id])
     waypoints: Mapped[List["Waypoint"]] = relationship(
         back_populates="route",
         cascade="all, delete-orphan",
-
     )
-    
+
+    likes = relationship(
+        "Likes",
+    back_populates="route",
+    cascade="all, delete-orphan",)
+
+    likes_count = column_property(
+        select(func.count(Likes.id))
+        .where(Likes.route_id == id)
+        .correlate_except(Likes)
+        .scalar_subquery()
+    )

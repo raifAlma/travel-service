@@ -27,7 +27,7 @@ class _DatabaseSettings(BaseSettings):
     password: SecretStr
     host: str = 'localhost'
     port: int = 5433
-    name: str = 'my_f_proj'
+    name: str = 'postgres'
 
     def get_database_url(self):
         return f"postgresql+asyncpg://{self.user}:{self.password.get_secret_value()}@{self.host}:{self.port}/{self.name}"

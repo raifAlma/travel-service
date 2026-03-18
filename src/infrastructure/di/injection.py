@@ -7,6 +7,7 @@ from infrastructure.repositories.postgres.user.uow import PostgreSQLUserUnitOfWo
 from infrastructure.repositories.postgres.token.uow import PostgreSQLTokenUnitOfWork
 from infrastructure.repositories.postgres.route.uow import PostgreSQLRouteUnitOfWork
 from infrastructure.repositories.postgres.waypoint.uow import PostgreSQLWaypointUnitOfWork
+from infrastructure.repositories.postgres.Like.uow import PostgreSQLLikeUnitOfWork
 
 
 def build_user_unit_of_work(
@@ -34,6 +35,11 @@ def build_comment_unit_of_work(
     session: AsyncSession,
 ) -> PostgreSQLCommentUnitOfWork:
     return Container.comment_uow_factory(session=session)
+
+def build_like_unit_of_work(
+    session: AsyncSession,
+) -> PostgreSQLLikeUnitOfWork:
+    return Container.like_uow_factory(session=session)
 
 
 

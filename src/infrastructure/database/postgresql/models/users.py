@@ -1,5 +1,6 @@
 from sqlalchemy.orm import  relationship, Mapped, mapped_column
 from infrastructure.database.postgresql.models.Comment import Comments
+#from infrastructure.database.postgresql.models.like import Likes
 from ..base import Base
 from sqlalchemy import Integer, String
 
@@ -25,18 +26,12 @@ class User(Base):
         foreign_keys = "[Route.owner_id]"
     )
 
-
-
     # NEW: One-to-Many: пользователь пишет отзывы
     comments: Mapped[list["Comments"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan"
     )
-"""
-    # NEW: Many-to-Many: пользователь лайкает отзывы
-    liked_reviews: Mapped[list["Review"]] = relationship(
-        secondary="likes",  # Укажем таблицу позже
-        back_populates="liked_by"
-    )
 
-"""
+    likes = relationship("Likes", back_populates="user",
+                        cascade="all, delete-orphan")
+

@@ -58,6 +58,7 @@ class RouteDetailResponse(BaseModel):
 
     id: int
     title: str
+    likes_count: int
     description: Optional[str]
     difficulty: DifficultyEnum
     distance_km: Optional[float]
