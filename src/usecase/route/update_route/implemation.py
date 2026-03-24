@@ -1,4 +1,5 @@
 from api.v1.routes.models import RouteUpdate
+
 from .abstract import AbstractUpdateRouteUseCase
 
 
@@ -10,5 +11,5 @@ class PostgreSQLUpdateRouteUseCase(AbstractUpdateRouteUseCase):
 
         async with self._uow as uow_:
 
-            route = await uow_.repository.update(route_id,schema)
+            route = await uow_.repository.update(route_id, schema)
         return route

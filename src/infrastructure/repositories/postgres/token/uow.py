@@ -1,6 +1,8 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from infrastructure.repositories.postgres.user import PostgreSQLUserRepository
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from .token import PostgreSQLTokenRepository
+
 
 class PostgreSQLTokenUnitOfWork:
     def __init__(self, session: AsyncSession):
@@ -10,7 +12,7 @@ class PostgreSQLTokenUnitOfWork:
         self.repository: PostgreSQLTokenRepository | None = None
 
     async def __aenter__(self):
-        #self.repository = PostgreSQLTokenRepository(self._session)
+        # self.repository = PostgreSQLTokenRepository(self._session)
         self.repository = PostgreSQLTokenRepository(self._session)
         self.user_repository = PostgreSQLUserRepository(self._session)
         return self
@@ -30,4 +32,3 @@ class PostgreSQLTokenUnitOfWork:
 
     async def rollback(self):
         await self._session.rollback()
-

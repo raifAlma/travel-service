@@ -1,9 +1,9 @@
-import yaml
-
 from pathlib import Path
 
-from pydantic_settings import BaseSettings
+import yaml
 from pydantic import SecretStr
+from pydantic_settings import BaseSettings
+
 
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 BASE_DIR = Path(__file__).resolve().parent
@@ -13,7 +13,7 @@ __all__ = ("BASE_DIR", "DATETIME_FORMAT", "settings")
 
 class _AppSettings(BaseSettings):
     name: str = "Course APP"
-    host: str = '0.0.0.0'
+    host: str = "0.0.0.0"
     port: int = 8000
     secret_key: SecretStr
     debug: bool = True
@@ -25,9 +25,9 @@ class _AppSettings(BaseSettings):
 class _DatabaseSettings(BaseSettings):
     user: str
     password: SecretStr
-    host: str = 'localhost'
+    host: str = "localhost"
     port: int = 5433
-    name: str = 'postgres'
+    name: str = "postgres"
 
     def get_database_url(self):
         return f"postgresql+asyncpg://{self.user}:{self.password.get_secret_value()}@{self.host}:{self.port}/{self.name}"

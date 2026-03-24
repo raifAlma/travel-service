@@ -1,13 +1,20 @@
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Singleton, Factory
+from dependency_injector.providers import Factory, Singleton
+from infrastructure.database.postgresql.session_manager import \
+    DatabaseSessionManager
+from infrastructure.repositories.postgres.comment.uow import \
+    PostgreSQLCommentUnitOfWork
+from infrastructure.repositories.postgres.Like.uow import \
+    PostgreSQLLikeUnitOfWork
+from infrastructure.repositories.postgres.route import \
+    PostgreSQLRouteUnitOfWork
+from infrastructure.repositories.postgres.token.uow import \
+    PostgreSQLTokenUnitOfWork
+from infrastructure.repositories.postgres.user.uow import \
+    PostgreSQLUserUnitOfWork
+from infrastructure.repositories.postgres.waypoint.uow import \
+    PostgreSQLWaypointUnitOfWork
 
-from infrastructure.database.postgresql.session_manager import DatabaseSessionManager
-from infrastructure.repositories.postgres.Like.uow import PostgreSQLLikeUnitOfWork
-from infrastructure.repositories.postgres.comment.uow import PostgreSQLCommentUnitOfWork
-from infrastructure.repositories.postgres.route import PostgreSQLRouteUnitOfWork
-from infrastructure.repositories.postgres.user.uow import PostgreSQLUserUnitOfWork
-from infrastructure.repositories.postgres.token.uow import PostgreSQLTokenUnitOfWork
-from infrastructure.repositories.postgres.waypoint.uow import PostgreSQLWaypointUnitOfWork
 
 class Container(DeclarativeContainer):
     session_manager = Singleton(DatabaseSessionManager)

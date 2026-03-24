@@ -1,5 +1,6 @@
+from infrastructure.repositories.postgres.route import \
+    PostgreSQLRouteRepository
 from sqlalchemy.ext.asyncio import AsyncSession
-from infrastructure.repositories.postgres.route import PostgreSQLRouteRepository
 
 
 class PostgreSQLRouteUnitOfWork:
@@ -25,6 +26,3 @@ class PostgreSQLRouteUnitOfWork:
 
     async def rollback(self):
         await self._session.rollback()
-
-
-

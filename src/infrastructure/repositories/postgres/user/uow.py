@@ -1,5 +1,5 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from infrastructure.repositories.postgres.user import PostgreSQLUserRepository
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class PostgreSQLUserUnitOfWork:
@@ -25,7 +25,3 @@ class PostgreSQLUserUnitOfWork:
 
     async def rollback(self):
         await self._session.rollback()
-
-
-
-

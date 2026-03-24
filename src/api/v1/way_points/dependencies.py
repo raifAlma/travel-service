@@ -1,19 +1,21 @@
 from fastapi import Depends
-
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from infrastructure.database.postgresql.session import get_async_session
 from infrastructure.di.injection import build_waypoint_unit_of_work
-
-from infrastructure.repositories.postgres.waypoint.uow import PostgreSQLWaypointUnitOfWork
-from usecase.wapoint.craeate_waypoint.abstract import AbstractCreateWaypointUseCase
-from usecase.wapoint.craeate_waypoint.implemation  import PostgreSQLCreateWaypointUseCase
-
-from usecase.wapoint.delete_waypoint.implemation import PostgreSQLDeleteWaypointUseCase
-from usecase.wapoint.update_waypoint.abstract import AbstractUpdateWaypointUseCase
-from usecase.wapoint.update_waypoint.implemation import PostgreSQLUpdateWaypointUseCase
+from infrastructure.repositories.postgres.waypoint.uow import \
+    PostgreSQLWaypointUnitOfWork
+from sqlalchemy.ext.asyncio import AsyncSession
+from usecase.wapoint.craeate_waypoint.abstract import \
+    AbstractCreateWaypointUseCase
+from usecase.wapoint.craeate_waypoint.implemation import \
+    PostgreSQLCreateWaypointUseCase
+from usecase.wapoint.delete_waypoint.implemation import \
+    PostgreSQLDeleteWaypointUseCase
 from usecase.wapoint.get_waypoint.abstract import AbstractGetWaypointUseCase
 from usecase.wapoint.get_waypoint.implemation import PostgreSQLGetRouteUseCase
+from usecase.wapoint.update_waypoint.abstract import \
+    AbstractUpdateWaypointUseCase
+from usecase.wapoint.update_waypoint.implemation import \
+    PostgreSQLUpdateWaypointUseCase
 
 
 def get_waypoint_unit_of_work(
@@ -23,25 +25,26 @@ def get_waypoint_unit_of_work(
 
 
 async def create_waypoint_use_case(
-        session: AsyncSession = Depends(get_async_session)
+    session: AsyncSession = Depends(get_async_session),
 ) -> AbstractCreateWaypointUseCase:
     uow = get_waypoint_unit_of_work(session)
-    return PostgreSQLCreateWaypointUseCase (uow=uow)
+    return PostgreSQLCreateWaypointUseCase(uow=uow)
 
-async def delete_waypoint_use_case(
-        session: AsyncSession = Depends(get_async_session)
-):
+
+async def delete_waypoint_use_case(session: AsyncSession = Depends(get_async_session)):
     uow = get_waypoint_unit_of_work(session)
     return PostgreSQLDeleteWaypointUseCase(uow=uow)
 
+
 async def update_waypoint_use_case(
-        session: AsyncSession = Depends(get_async_session)
-)->AbstractUpdateWaypointUseCase:
+    session: AsyncSession = Depends(get_async_session),
+) -> AbstractUpdateWaypointUseCase:
     uow = get_waypoint_unit_of_work(session)
     return PostgreSQLUpdateWaypointUseCase(uow=uow)
 
+
 async def get_waypoint_use_case(
-        session: AsyncSession = Depends(get_async_session)
-)-> AbstractGetWaypointUseCase:
+    session: AsyncSession = Depends(get_async_session),
+) -> AbstractGetWaypointUseCase:
     uow = get_waypoint_unit_of_work(session)
     return PostgreSQLGetRouteUseCase(uow=uow)

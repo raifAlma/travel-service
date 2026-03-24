@@ -1,5 +1,7 @@
 from api.v1.comments.models import CommentCreate
+
 from .abstarct import AbstractCreateCommentUseCase
+
 
 class PostgreSQLCreateCommentUseCase(AbstractCreateCommentUseCase):
     def __init__(self, uow):

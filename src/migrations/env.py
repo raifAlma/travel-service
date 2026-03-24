@@ -2,21 +2,23 @@ import asyncio
 import sys
 from pathlib import Path
 
+
 # Добавляем путь к папке src в sys.path
-BASE_DIR = Path(__file__).resolve().parent.parent.parent  # поднимаемся на три уровня: migrations/ -> src/ -> my_f_proj/
+BASE_DIR = (
+    Path(__file__).resolve().parent.parent.parent
+)  # поднимаемся на три уровня: migrations/ -> src/ -> my_f_proj/
 SRC_DIR = BASE_DIR / "src"
 sys.path.insert(0, str(SRC_DIR))
 
 from logging.config import fileConfig
 
+from alembic import context
+from infrastructure.database.postgresql.base import Base
+from settings import settings
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-from alembic import context
-
-from infrastructure.database.postgresql.base import Base
-from settings import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

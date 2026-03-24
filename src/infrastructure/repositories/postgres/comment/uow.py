@@ -1,5 +1,7 @@
+from infrastructure.repositories.postgres.comment import \
+    PostgreSQLCommentRepository
 from sqlalchemy.ext.asyncio import AsyncSession
-from infrastructure.repositories.postgres.comment import PostgreSQLCommentRepository
+
 
 class PostgreSQLCommentUnitOfWork:
     def __init__(self, session: AsyncSession):
@@ -8,7 +10,7 @@ class PostgreSQLCommentUnitOfWork:
         self.repository: PostgreSQLCommentRepository | None = None
 
     async def __aenter__(self):
-        self.repository = PostgreSQLCommentRepository (self._session)
+        self.repository = PostgreSQLCommentRepository(self._session)
         return self
 
     async def __aexit__(self, exc_type: Exception | None, exc_val, traceback):

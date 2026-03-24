@@ -1,1 +1,2 @@
 from .waypoint import PostgreSQLWaypointRepository
+from .uow import PostgreSQLWaypointUnitOfWork

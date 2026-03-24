@@ -1,10 +1,11 @@
-
 from .abstract import AbstractDeleteRouteUseCase
+
+
 class PostgreSQLDeleteRouteUseCase(AbstractDeleteRouteUseCase):
     def __init__(self, uow):
         self._uow = uow
 
-    async def execute(self, route_id:int):
+    async def execute(self, route_id: int):
 
         async with self._uow as uow_:
 

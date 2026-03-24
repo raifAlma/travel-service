@@ -1,3 +1,3 @@
 class InvalidRefreshToken(Exception):
     def __init__(self):
-        super().__init__('Refresh token not found or expired')
+        super().__init__("Refresh token not found or expired")

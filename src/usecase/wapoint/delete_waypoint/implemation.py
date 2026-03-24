@@ -1,10 +1,11 @@
 from .abstract import AbstractDeleteWaypointUseCase
 
+
 class PostgreSQLDeleteWaypointUseCase(AbstractDeleteWaypointUseCase):
     def __init__(self, uow):
         self._uow = uow
 
-    async def execute(self, waypoint_id:int):
+    async def execute(self, waypoint_id: int):
 
         async with self._uow as uow_:
 

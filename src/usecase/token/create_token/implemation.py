@@ -1,7 +1,7 @@
 from api.v1.auth.models import UserLoginSchema
-from api.v1.users.models import CreateUpdateUserSchema
+
 from .abstract import AbstractCreateTokenUseCase
-from fastapi import Depends, HTTPException
+
 
 class PostgreSQLCreateTokenUseCase(AbstractCreateTokenUseCase):
     def __init__(self, uow):

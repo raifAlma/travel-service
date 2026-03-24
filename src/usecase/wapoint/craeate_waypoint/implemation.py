@@ -1,5 +1,7 @@
 from api.v1.way_points.models import WaypointSchema
+
 from .abstract import AbstractCreateWaypointUseCase
+
 
 class PostgreSQLCreateWaypointUseCase(AbstractCreateWaypointUseCase):
     def __init__(self, uow):

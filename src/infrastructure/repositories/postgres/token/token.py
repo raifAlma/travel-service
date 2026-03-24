@@ -1,17 +1,16 @@
-
-import secrets
 import datetime
-
+import secrets
 from datetime import timedelta
 
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from api.v1.auth.models import TokenSchema, RefreshTokenSchema
+from api.v1.auth.models import RefreshTokenSchema, TokenSchema
 from api.v1.users.models import UserSchema
 from infrastructure.database.postgresql.models import Token, User
 from infrastructure.repositories.postgres.token.crypto import hash_token
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from .exception import InvalidRefreshToken
+
 
 class PostgreSQLTokenRepository:
     def __init__(self, session: AsyncSession):
@@ -24,8 +23,12 @@ class PostgreSQLTokenRepository:
         hex_access_token = hash_token(access_token)
         hex_refresh_token = hash_token(refresh_token)
 
-        access_token_expires_in = datetime.datetime.now(datetime.UTC) + timedelta(minutes=15)
-        refresh_token_expires_in = datetime.datetime.now(datetime.UTC) + timedelta(hours=24)
+        access_token_expires_in = datetime.datetime.now(datetime.UTC) + timedelta(
+            minutes=15
+        )
+        refresh_token_expires_in = datetime.datetime.now(datetime.UTC) + timedelta(
+            hours=24
+        )
 
         token = Token(
             user_id=user.id,
@@ -40,8 +43,8 @@ class PostgreSQLTokenRepository:
         schema = TokenSchema(
             access_token=access_token,
             refresh_token=refresh_token,
-            access_token_expires_in = access_token_expires_in,
-            refresh_token_expires_in = refresh_token_expires_in
+            access_token_expires_in=access_token_expires_in,
+            refresh_token_expires_in=refresh_token_expires_in,
         )
         return schema
 
@@ -66,8 +69,12 @@ class PostgreSQLTokenRepository:
         hex_access_token = hash_token(access_token)
         hex_refresh_token = hash_token(refresh_token)
 
-        access_token_expires_in = datetime.datetime.now(datetime.UTC) + timedelta(minutes=15)
-        refresh_token_expires_in = datetime.datetime.now(datetime.UTC) + timedelta(hours=24)
+        access_token_expires_in = datetime.datetime.now(datetime.UTC) + timedelta(
+            minutes=15
+        )
+        refresh_token_expires_in = datetime.datetime.now(datetime.UTC) + timedelta(
+            hours=24
+        )
 
         new_token = Token(
             user_id=token.user_id,
@@ -86,15 +93,17 @@ class PostgreSQLTokenRepository:
             access_token=access_token,
             refresh_token=refresh_token,
             access_token_expires_in=access_token_expires_in,
-            refresh_token_expires_in=refresh_token_expires_in
+            refresh_token_expires_in=refresh_token_expires_in,
         )
         return schema
 
     async def get_user(self, access_token: str) -> UserSchema:
         hex_access_token = hash_token(access_token)
 
-        query = select(User).join(Token, User.id == Token.user_id).where(
-            Token.access_token == hex_access_token
+        query = (
+            select(User)
+            .join(Token, User.id == Token.user_id)
+            .where(Token.access_token == hex_access_token)
         )
         result = await self._session.execute(query)
 
@@ -109,5 +118,3 @@ class PostgreSQLTokenRepository:
             email=user.email,
             age=user.age,
         )
-
-

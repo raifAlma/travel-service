@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar, List
+from typing import Generic, List, TypeVar
+
 
 TEntity = TypeVar("TEntity")
 TId = TypeVar("TId")

@@ -1,5 +1,5 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from infrastructure.repositories.postgres.Like import PostgreSQLLikeRepository
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class PostgreSQLLikeUnitOfWork:
@@ -25,4 +25,3 @@ class PostgreSQLLikeUnitOfWork:
 
     async def rollback(self):
         await self._session.rollback()
-

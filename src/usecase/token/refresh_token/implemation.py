@@ -1,4 +1,4 @@
-from api.v1.auth.models import  RefreshTokenSchema, TokenSchema
+from api.v1.auth.models import RefreshTokenSchema, TokenSchema
 
 from .abstract import AbstractRefreshTokenUseCase
 
@@ -11,4 +11,3 @@ class PostgreSQLRefreshTokenUseCase(AbstractRefreshTokenUseCase):
         async with self._uow as uow_:
             token = await uow_.repository.refresh(schema)
         return token
-

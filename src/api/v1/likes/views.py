@@ -1,24 +1,30 @@
-from fastapi import status, APIRouter, Depends, HTTPException
-from fastapi.encoders import jsonable_encoder
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from usecase.like.add_like.abstract import AbstractAddLikeeUseCase
+from usecase.like.delete_like.abstract import AbstractDeleteLikeUseCase
 
-router = APIRouter(prefix='/likes')
-
-from .dependencies import create_like_use_case, build_like_unit_of_work
-from usecase.comment.create_comment.abstarct import AbstractCreateCommentUseCase
-from .models import LikeCreate
+from .dependencies import create_like_use_case, delete_like_use_case
+from .models import LikeCreateDelete
 
 
+router = APIRouter(prefix="/likes")
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)
 async def create_like(
-    payload: LikeCreate,
-    usecase: AbstractCreateCommentUseCase= Depends(create_like_use_case),
+    payload: LikeCreateDelete,
+    usecase: AbstractAddLikeeUseCase = Depends(create_like_use_case),
 ) -> JSONResponse:
     try:
         like = await usecase.execute(payload)
     except Exception as error:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error))
     return like
+
+
+@router.delete("/{like_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_like(
+    like_id: int, usecase: AbstractDeleteLikeUseCase = Depends(delete_like_use_case)
+):
+    await usecase.execute(like_id)
+    return None

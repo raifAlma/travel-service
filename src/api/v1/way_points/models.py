@@ -1,5 +1,7 @@
-from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, Field
+
 
 class WaypointSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -16,5 +18,3 @@ class WaypointUpdate(BaseModel):
     longitude: Optional[float] = Field(None, ge=-180, le=180)
     title: Optional[str] = Field(None, max_length=100)
     description: Optional[str] = Field(None, max_length=500)
-
-

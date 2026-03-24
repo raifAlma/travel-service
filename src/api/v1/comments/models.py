@@ -1,6 +1,5 @@
-from pydantic import BaseModel, Field, ConfigDict
-
 from api.v1.users.models import UserInfoSchema
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class CommentCreate(BaseModel):
@@ -16,5 +15,3 @@ class CommentResponse(BaseModel):
     route_id: int
 
     model_config = ConfigDict(from_attributes=True)
-
-

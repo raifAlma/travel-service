@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
 
-from api.v1.users.models import CreateUpdateUserSchema
+from api.v1.users.models import CreateUserSchema
 
 
 class AbstractCreateUserUseCase(ABC):
     @abstractmethod
-    async def execute(self, schema: CreateUpdateUserSchema):
-        ...
+    async def execute(self, schema: CreateUserSchema): ...

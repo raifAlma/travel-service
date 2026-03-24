@@ -5,7 +5,6 @@ from domain.repository.abstract import AbstractRepository, TCreateDTO, TEntity
 from .models import User, UserCreateDTO, UserUpdateDTO
 
 
-
 class AbstractUserRepository(
     AbstractRepository[User, int, UserCreateDTO, UserUpdateDTO],
     ABC,
@@ -13,11 +12,13 @@ class AbstractUserRepository(
     @abstractmethod
     def create(self, dto: TCreateDTO) -> TEntity:
         raise NotImplementedError()
+
     ...
 
     @abstractmethod
     def get_by_id(self, id: int) -> User:
         raise NotImplementedError()
+
     ...
 
     @abstractmethod
@@ -31,7 +32,6 @@ class AbstractUserRepository(
     @abstractmethod
     def put_by_id(self, id: int, data: UserCreateDTO) -> None:
         raise NotImplementedError()
-
 
     """
     Контракт репозитория для Item.

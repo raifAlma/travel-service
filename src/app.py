@@ -1,12 +1,10 @@
-
-
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-
-from settings import settings
 from api.v1 import routers as api_v1
 from container import Container
+from fastapi import FastAPI
+from settings import settings
+
 
 container = Container()
 
@@ -30,10 +28,8 @@ async def lifespan(app: FastAPI):
 container.wire(
     modules=[
         "infrastructure.database.postgresql.session",
-
     ]
 )
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(api_v1.router)
-

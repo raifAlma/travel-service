@@ -1,4 +1,5 @@
 from api.v1.routes.models import RouteDetailResponse
+
 from .abstract import AbstractGetDetailRouteUseCase
 
 

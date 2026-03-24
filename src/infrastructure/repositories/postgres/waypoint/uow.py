@@ -1,7 +1,6 @@
+from infrastructure.repositories.postgres.waypoint import \
+    PostgreSQLWaypointRepository
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import AsyncIterator
-
-from infrastructure.repositories.postgres.waypoint import PostgreSQLWaypointRepository
 
 
 class PostgreSQLWaypointUnitOfWork:
